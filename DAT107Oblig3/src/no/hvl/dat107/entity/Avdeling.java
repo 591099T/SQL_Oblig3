@@ -36,6 +36,10 @@ public class Avdeling {
 		this.setNavn(navn);
 		this.sjef = sjef;
 	}
+	public void skrivUt() {
+		System.out.println();
+		System.out.println("Avdeling nr " + id + ": " + "Navn: " + navn + ", Sjef: " + sjef);
+	}
 
 	public int getId() {
 		return id;
