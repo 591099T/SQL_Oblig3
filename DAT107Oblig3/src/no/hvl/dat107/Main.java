@@ -33,8 +33,8 @@ public class Main {
 				Ansatt b1=ansattdao.finnAnsattMedId(2);
 				b1.skrivUt();
 				//Søke etter ansatt med brukernavn
-				//Ansatt b2=ansattdao.finnAnsattMedBrukernavn("arn");
-				//b2.skrivUt();
+				Ansatt b2=ansattdao.finnAnsattMedBrukernavn("arn");
+				b2.skrivUt();
 				//Utliste alle ansatte
 				List<Ansatt> b3 = ansattdao.finnAlleAnsatte();
 				skrivUte("Alle ansatte");
@@ -130,5 +130,3 @@ public class Main {
         
 
 	}
-
-}

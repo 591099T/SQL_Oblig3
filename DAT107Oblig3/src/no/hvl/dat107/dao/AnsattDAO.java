@@ -6,7 +6,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import no.hvl.dat107.entity.Ansatt;
@@ -35,17 +38,20 @@ public class AnsattDAO {
 	}
 
 	public Ansatt finnAnsattMedBrukernavn(String brukernavn) {
-
 		EntityManager em = emf.createEntityManager();
-
-		Ansatt p = null;
+		Ansatt ansatt = null;
+		
 		try {
-			p = em.find(Ansatt.class, brukernavn); // Henter ut på primærnøkkel
+			String strBruk = String.format("SELECT ans FROM Ansatt AS ans WHERE ans.brukernavn = '%s'", brukernavn);
+			Query query = em.createQuery(strBruk);
+			ansatt = (Ansatt) query.getSingleResult();
+		} catch (Exception e) {
+			
 		} finally {
 			em.close();
 		}
-
-		return p;
+		
+		return ansatt;
 	}
 
 	public void registrerProsjektdeltagelse(Ansatt a, Prosjekt p) {
