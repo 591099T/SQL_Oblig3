@@ -4,31 +4,28 @@ import no.hvl.dat107.dao.AnsattDAO;
 import no.hvl.dat107.dao.ProsjektDAO;
 import no.hvl.dat107.entity.Ansatt;
 import no.hvl.dat107.entity.Prosjekt;
+import java.math.BigDecimal;
+import java.time.Month;
+import java.util.List;
+import java.time.LocalDate;
+
+import no.hvl.dat107.dao.AnsattDAO;
+import no.hvl.dat107.dao.AvdelingDAO;
+import no.hvl.dat107.dao.ProsjektDAO;
+import no.hvl.dat107.entity.Ansatt;
+import no.hvl.dat107.entity.Prosjekt;
 
 public class Main {
 
-	public static void main(String[] args) {
-		package no.hvl.dat107;
 
-		import java.math.BigDecimal;
-		import java.time.Month;
-		import java.util.List;
-		import java.time.LocalDate;
-
-		import no.hvl.dat107.dao.AnsattDAO;
-		import no.hvl.dat107.dao.AvdelingDAO;
-		import no.hvl.dat107.dao.ProsjektDAO;
-		import no.hvl.dat107.entity.Ansatt;
-		import no.hvl.dat107.entity.Prosjekt;
-
-		public class Main {
 			private static AnsattDAO ansattdao = new AnsattDAO();
 			private static ProsjektDAO prosjektdao = new ProsjektDAO();
 			private static AvdelingDAO avdelingdao = new AvdelingDAO();
+			
 
 			public static void main(String[] args) {
 
-				ansattdao.leggTilNyAnsatt(new Ansatt("per", "Perkor", "Janus", LocalDate.of(2022, Month.MARCH, 1),
+				ansattdao.leggTilNyAnsatt(new Ansatt("per", "Perkor", "Janus", LocalDate.of(2022, Month.MARCH, 1), 
 						"IT konsulent", new BigDecimal("23020"), 1));
 				System.out.println("Oppretta bruker Perkor");
 				
@@ -77,6 +74,7 @@ public class Main {
 				a2.skrivUt();
 
 			}
+
 //		    private static void skrivUt(String tekst) {
 //				List<Ansatt> personer = AnsattDAO.finnAlleAnsatte();
 //				System.out.println("\n--- "+ tekst +" ---");
@@ -89,7 +87,7 @@ public class Main {
 				personer.forEach(System.out::println);
 			}
 
-		}
+		
 
         
         
