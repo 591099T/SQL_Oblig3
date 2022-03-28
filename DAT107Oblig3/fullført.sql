@@ -1,10 +1,9 @@
--- Mange-til-mange-eksempel forelesning tirsdag 22. mars 2021.
+-- Mange-til-en-til-mange-eksempel forelesning tirsdag 22. mars 2021.
 
 -- MERK!!! DROP SCHEMA ... CASCADE sletter alt !!!
-DROP SCHEMA IF EXISTS oblig3 CASCADE;
-
-CREATE SCHEMA oblig3;
-SET search_path TO oblig3;
+DROP SCHEMA IF EXISTS obligatorisk CASCADE;
+CREATE SCHEMA obligatorisk;
+SET search_path TO obligatorisk;
 
 CREATE TABLE Ansatt
 (
@@ -14,10 +13,9 @@ CREATE TABLE Ansatt
   Etternavn  VARCHAR(30),
   Ansettelses_Dato DATE NOT NULL DEFAULT CURRENT_DATE, 
   Stilling VARCHAR(30),
-  maaneds_lonn DECIMAL(12,2),
+  maaneds_lonn DECIMAL(10,2),
   avdeling INTEGER,
   CONSTRAINT Ansatt_PK PRIMARY KEY (Id)
-  
 );
 CREATE TABLE Avdeling
 (
@@ -31,62 +29,62 @@ CREATE TABLE Avdeling
 ALTER TABLE Ansatt
 ADD CONSTRAINT Avdeling_FK FOREIGN KEY (Avdeling) REFERENCES Avdeling(Id) ; 
 
-
 CREATE TABLE Prosjekt
 (
   Id        SERIAL,
   Navn      VARCHAR(30),
-  Beskrivelse VARCHAR(50),
   CONSTRAINT Prosjekt_PK PRIMARY KEY (Id)
 );
 
-
--- Mange-til-mange må løses med en koblingstabell, slik:
+-- Koblingstabellen har i dette tilfellet egne data (timer)
+-- Blir da en egen selvstendig entitet.
+-- Nå med surrugatnøkkel for å forenkle kodingen.
 CREATE TABLE Prosjektdeltagelse
 (
-  Prosjektdeltagelse_id SERIAL,
+  Prosjektdeltagelse_Id SERIAL,
   Ansatt_Id INTEGER,
   Prosjekt_Id INTEGER,
-  Timer_Jobbet INTEGER,
-  Rolle VARCHAR(30),
-  CONSTRAINT Prosjektdeltagelse_PK PRIMARY KEY (Ansatt_Id, Prosjekt_Id),
+  Timer     INTEGER,
+  CONSTRAINT Prosjektdeltagelse_PK PRIMARY KEY (Prosjektdeltagelse_Id),
   CONSTRAINT AnsattProsjekt_Unik UNIQUE (Ansatt_Id, Prosjekt_Id),
-  CONSTRAINT Ansatt_FK FOREIGN KEY (Ansatt_Id) REFERENCES Ansatt(Id) ,
-  CONSTRAINT Prosjekt_FK FOREIGN KEY (Prosjekt_Id) REFERENCES Prosjekt(Id)   
+  CONSTRAINT Ansatt_FK FOREIGN KEY (Ansatt_Id) REFERENCES Ansatt(Id),
+  CONSTRAINT Prosjekt_FK FOREIGN KEY (Prosjekt_Id) REFERENCES Prosjekt(Id)  
 );
 
-
 INSERT INTO
-  Ansatt(Brukernavn, Fornavn, Etternavn, Stilling, maaneds_lonn)
+Ansatt(Brukernavn, Fornavn, Etternavn, Stilling, maaneds_lonn)
 VALUES
-  ('arn', 'Arne', 'Arnesen', 'IT Sjef', 30432.32),
-  ('bri', 'Brit', 'Britsen', 'IT konsulent', 21060.62),
-  ('car', 'Carl', 'Carlsen', 'IT konsulent', 21060.62),
-  ('don', 'Donald', 'Duck', 'HR Sjef', 28185.09),
-  ('sig', 'Sigur', 'Petter', 'Eigar', 95185.09);
-  
-INSERT INTO
+  ('arn', 'Arne', 'Arnesen', 'IT Sjef', 30432.3),
+  ('bri', 'Brit', 'Britsen', 'IT konsulent', 21060.3),
+  ('car', 'Carl', 'Carlsen', 'IT konsulent', 21060.32),
+  ('don', 'Donald', 'Duck', 'HR Sjef', 28185.32),
+  ('sig', 'Sigur', 'Petter', 'Eigar', 95185.56);
+ 
+ INSERT INTO
 	Avdeling(Navn, Sjef)
 VALUES
 	('IT',  1),
 	('HR', 4),
 	('Ledelsen',  5);
-INSERT INTO
-  Prosjekt(Navn, Beskrivelse)
-VALUES
-  ('ServerUtvidingsProsjekt', 'Planlegge utvidelse av serverrommet'),
-  ('Synergiprosjektet', 'Finne ut m�ter � auke trivselen til ansatte');
 
 INSERT INTO
-  Prosjektdeltagelse(Ansatt_Id, Prosjekt_Id, Timer_Jobbet, Rolle)
+  Prosjekt(Navn)
 VALUES
-  (1, 1, 13, 'Prosjektleder'),
-  (2, 1, 12, 'Prosjektassistent'),
-  (3, 1, 6, 'Prosjektassistent'),
-  (3, 2, 2, 'IT hjelpekonsulent'),
-  (4, 2, 7, 'Prosjektleder');
+  ('Trivselsprosjektet'),
+  ('Synergiprosjektet'),
+  ('Utviklingsprosjektet');
+
+INSERT INTO
+  Prosjektdeltagelse(Ansatt_Id, Prosjekt_Id, Timer)
+VALUES
+  (1, 1, 50),
+  (2, 1, 100),
+  (2, 2, 150),
+  (3, 1, 200),
+  (3, 2, 250),
+  (4, 1, 300);
  
-UPDATE  Ansatt
+ UPDATE  Ansatt
 SET Avdeling=1
 WHERE Id=1;
 
@@ -109,5 +107,4 @@ WHERE Id=5;
 ALTER TABLE ansatt
 ALTER COLUMN Avdeling SET NOT NULL;
 
- 
   
