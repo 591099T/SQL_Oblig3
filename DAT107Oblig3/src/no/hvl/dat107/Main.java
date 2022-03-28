@@ -3,6 +3,7 @@ package no.hvl.dat107;
 import no.hvl.dat107.dao.AnsattDAO;
 import no.hvl.dat107.dao.ProsjektDAO;
 import no.hvl.dat107.entity.Ansatt;
+import no.hvl.dat107.entity.Avdeling;
 import no.hvl.dat107.entity.Prosjekt;
 import java.math.BigDecimal;
 import java.time.Month;
@@ -27,19 +28,45 @@ public class Main {
 				
 				//Ting som må gjøres i main.
 				//Hente ut og skrive ut ein ansatt på skjermen.
-				//Søke etter ansatt på id.
-				//Søke etter ansatt med brukernavn
-				//Utliste alle ansatte
-				//Oppdatere ansatt sin stilling/lønn og skrive dei ut på nytt 
-				//Oprette ein ny ansatt å skrive han ut på skjermen
 				
+				//Søke etter ansatt på id.
+				Ansatt b1=ansattdao.finnAnsattMedId(2);
+				b1.skrivUt();
+				//Søke etter ansatt med brukernavn
+				//Ansatt b2=ansattdao.finnAnsattMedBrukernavn("arn");
+				//b2.skrivUt();
+				//Utliste alle ansatte
+				List<Ansatt> b3 = ansattdao.finnAlleAnsatte();
+				skrivUte("Alle ansatte");
+				//Oppdatere ansatt sin stilling/lønn og skrive dei ut på nytt 
+				System.out.println();
+				System.out.println("Forandre stilling til Britt");
+				b1.setStilling("Administrator");
+				b1.skrivUt();
+				
+				//Oprette ein ny ansatt å skrive han ut på skjermen
+				System.out.println();
+				System.out.println("Oprette bruker å skrive han ut");
+				ansattdao.leggTilNyAnsatt(new Ansatt("pet", "Petter", "Janus", LocalDate.of(2022, Month.MARCH, 1),
+						"IT konsulent", new BigDecimal("23020"), 1));
+				Ansatt b4 = ansattdao.finnAnsattMedId(6);
+				b4.skrivUt();
 				//Finn avdeling med id, og skriv han ut på skjrmen
-
-				ansattdao.leggTilNyAnsatt(new Ansatt("per", "Perkor", "Janus", LocalDate.of(2022, Month.MARCH, 1), 
+				System.out.println();
+				System.out.println("Finne ein avdeling å skrive han ut på skjermen");
+				Avdeling a1 =avdelingdao.finnAvdelingMedId(2);
+				a1.skrivUt();
+				
+				
+				System.out.println();
+				System.out.println("Oppgavene heretter er ikkje obligatorisk å fullføre");
+				System.out.println();
+				
+				ansattdao.leggTilNyAnsatt(new Ansatt("per", "Perkor", "Janus", LocalDate.of(2022, Month.MARCH, 1),
 						"IT konsulent", new BigDecimal("23020"), 1));
 				System.out.println("Oppretta bruker Perkor");
 				
-				Ansatt z1 = ansattdao.finnAnsattMedId(6);
+				Ansatt z1 = ansattdao.finnAnsattMedId(7);
 				z1.skrivUt();
 				System.out.println("Sjekker at Perkor ikkje har nokre prosjekter");
 				

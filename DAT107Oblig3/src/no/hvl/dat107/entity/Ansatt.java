@@ -172,5 +172,12 @@ public class Ansatt {
 				+ ", Månedslønn: " + lonn + ", Avdeling: " + avdeling);
 
 	}
+	@Override
+	public String toString() {
+		return "Ansatt nr " + id + ": " + "Brukernavn: " + brukernavn + "\n" + ", Fornavn: " + fornavn
+				+ ", Etternavn: " + etternavn + ", Ansettelsesdato: " + dato + ", Stilling: " + stilling
+				+ ", Månedslønn: " + lonn + ", Avdeling: " + avdeling;
+
+	}
 
 }
